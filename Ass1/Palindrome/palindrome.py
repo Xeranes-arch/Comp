@@ -1,35 +1,28 @@
-import numpy as np
+def main():
+    n = 999
+    cur = 0
+    while n > 99:
+        # This saves half the calculations by not repeating the identical other half of the multiplication table
+        m = n
 
+        # Stops calculating the current row of n, when the values are smaller than cur, since they are smf.
+        while m > 99 and n * m > cur:
+            if str(n * m) == str(n * m)[::-1]:
+                break
 
-def check_pal(n):
-    a = str(n)
-    b = a[::-1]
-    if a == b:
-        return True
-    else:
-        return False
+            m = m - 1
+        else:
+            # If the m loop exits, while still on the first entry, then it is because the first entry is smaller than cur, every value calculated after that will, just by virtue of being lower on the multiplication table be smaller. Exit.
 
+            if n == m:
+                return cur
 
-n = 999
-list = []
-while n > 99:
-    m = n
-    while m > 99:
-        if check_pal(n * m):
-            break
-        m = m - 1
-    else:
+            n = n - 1
+            continue
+
+        cur = n * m
         n = n - 1
-        continue
-    list.append((n, m))
-    n = n - 1
 
-nr = []
-for i in list:
-    c, d = i
-    nr.append(c * d)
 
-print(np.argsort(nr))
-print(len(list))
-list = list[np.argsort(nr)]
-print(list[0])
+if __name__ == "__main__":
+    print(main())

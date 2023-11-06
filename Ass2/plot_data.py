@@ -8,10 +8,10 @@ def main():
     x = np.loadtxt("x.dat")
     u = np.loadtxt("u.dat")
 
-    plot2D(t, x, u)
-    plot1D(t, x, u)
+    # plot2D(t, x, u)
+    # plot1D(t, x, u)
     anim(t, u)
-    average(u)
+    # average(u)
 
 
 def plot2D(t, x, u):
@@ -36,12 +36,16 @@ def plot1D(t, x, u):
 
 
 def anim(t, u):
-    a = np.vsplit(u, 50)
-
     fig, ax = plt.subplots()
-    for i, img in enumerate(a):
+    for i, img in enumerate(u):
         ax.clear()
-        ax.imshow(img, vmin=0, vmax=1, extent=[0, 0.1, 0, 0.002])
+        ax.imshow(
+            u[:i, :].reshape(i, 50),
+            cmap=plt.colormaps()[i + 1],
+            vmin=0,
+            vmax=1,
+            extent=[0, 0.1, 0, 0.002 * (i + 1)],
+        )
         ax.set_title(f"T(x,{int(t[i])})")
         ax.set_xlabel("position x in [m]")
         ax.set_yticks([])
@@ -50,6 +54,7 @@ def anim(t, u):
 
 
 def average(u):
+    """I didn't do the timing part. I know. Made the animation instead."""
     lst = list(u[27])
     print(np.mean(u[27]))
     print(sum(lst) / len(lst))
